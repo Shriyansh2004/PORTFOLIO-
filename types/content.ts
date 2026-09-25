@@ -76,6 +76,8 @@ export interface ExperienceEntry {
   company: string;
   logo: string;
   logoAlt: string;
+  website: string;
+  linkedin: string;
   role: string;
   duration: string;
   description: string;

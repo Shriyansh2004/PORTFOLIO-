@@ -5,23 +5,34 @@
     {
       "id": "future-motion",
       "company": "Future Motion Pvt. Ltd.",
-      "logo": "",
-      "logoAlt": "Future Motion logo",
-      "role": "Backend Development Intern",
+      "logo": "/company-logos/karocharge.png",
+      "logoAlt": "KaroCharge logo",
+      "website": "https://www.karocharge.com",
+      "linkedin": "https://www.linkedin.com/company/karocharge",
+      "role": "Head of Product",
       "duration": "Internship",
-      "description": "Worked on KaroCharge, an EV charging platform. Built and extended the Spring Boot API around OCPP 2.0.1 charging sessions, integrating CitrineOS as the CSMS, Hasura GraphQL, and deployment on AWS EC2 behind Nginx.",
-      "tech": ["Spring Boot", "OCPP 2.0.1", "CitrineOS", "Hasura", "AWS EC2", "Nginx"],
+      "description": "Engineered a Spring Boot backend for EV charging infrastructure including protocols, integrating mulitple Charging Software Management Systems (CSMS) to control and monitor 50+ real and virtual chargers; built a real-time admin dashboard providing live network and station status visibility across the entire fleet.",
+      "tech": [],
       "order": 0
     },
     {
       "id": "hirekarma",
       "company": "HireKarma Pvt. Ltd.",
-      "logo": "",
+      "logo": "/company-logos/hirekarma.png",
       "logoAlt": "HireKarma logo",
-      "role": "Backend Development Intern",
+      "website": "https://www.hirekarma.in",
+      "linkedin": "https://www.linkedin.com/company/hirekarma-pvt-ltd",
+      "role": "Software Developer Engineer Intern",
       "duration": "Internship",
       "description": "Worked on EV-SIM, a full-stack OCPP 2.0.1 simulation platform. Implemented the FastAPI backend and a Next.js, TypeScript, and Tailwind interface, including OpenAI API integration so chargers could be controlled in natural language.",
-      "tech": ["FastAPI", "Next.js", "TypeScript", "Tailwind CSS", "OpenAI API", "OCPP 2.0.1"],
+      "tech": [
+        "FastAPI",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "OpenAI API",
+        "OCPP 2.0.1"
+      ],
       "order": 1
     }
   ]

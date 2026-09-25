@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Field, ItemActions, inputClass, saveContent, uploadFile } from "@/components/admin/admin-ui";
 import { SkillIcon } from "@/components/ui/SkillIcon";
@@ -17,6 +17,15 @@ import type {
   SiteContent,
   SkillsContent,
 } from "@/types/content";
+
+type CompanySuggestion = {
+  name: string;
+  domain: string;
+  logo: string;
+  logoAlt: string;
+  website: string;
+  linkedin: string;
+};
 
 function Notice({ error, saved }: { error: string; saved: boolean }) {
   if (error) return <p className="text-sm text-red-600">{error}</p>;
@@ -249,16 +258,116 @@ export function SkillsEditor({ initial }: { initial: SkillsContent }) {
 export function ExperienceEditor({ initial }: { initial: ExperienceContent }) {
   const router = useRouter();
   const [draft, setDraft] = useState(initial);
+  const [techText, setTechText] = useState<Record<string, string>>(() =>
+    Object.fromEntries(initial.entries.map((entry) => [entry.id, entry.tech.join(", ")])),
+  );
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
   const [pending, setPending] = useState(false);
+  const [lookingUp, setLookingUp] = useState<string | null>(null);
+  const [suggestions, setSuggestions] = useState<{ id: string; items: CompanySuggestion[] } | null>(null);
+  const suggestTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function queueSuggestions(entryId: string, value: string) {
+    if (suggestTimer.current) clearTimeout(suggestTimer.current);
+    const query = value.trim();
+    if (query.length < 2) {
+      setSuggestions(null);
+      return;
+    }
+    suggestTimer.current = setTimeout(async () => {
+      const response = await fetch(`/api/admin/company-lookup?suggest=1&name=${encodeURIComponent(query)}`);
+      const body = (await response.json().catch(() => null)) as { suggestions?: CompanySuggestion[] } | null;
+      setSuggestions({ id: entryId, items: body?.suggestions ?? [] });
+    }, 250);
+  }
+
+  async function chooseSuggestion(index: number, entryId: string, item: CompanySuggestion) {
+    setSuggestions(null);
+    setDraft((current) => {
+      const entries = current.entries.slice();
+      const row = entries[index];
+      if (!row || row.id !== entryId) return current;
+      entries[index] = {
+        ...row,
+        company: item.name,
+        logo: item.logo || row.logo,
+        logoAlt: item.logoAlt || `${item.name} logo`,
+        website: item.website || row.website,
+        linkedin: item.linkedin || row.linkedin,
+      };
+      return { ...current, entries };
+    });
+    if (item.logo) return;
+    setLookingUp(entryId);
+    try {
+      const response = await fetch(`/api/admin/company-lookup?name=${encodeURIComponent(item.name)}`);
+      const body = (await response.json().catch(() => null)) as { found?: boolean; logo?: string; logoAlt?: string; website?: string; linkedin?: string } | null;
+      if (!response.ok || !body?.found || !body.logo) return;
+      setDraft((current) => {
+        const entries = current.entries.slice();
+        const row = entries[index];
+        if (!row || row.id !== entryId) return current;
+        entries[index] = {
+          ...row,
+          logo: body.logo || row.logo,
+          logoAlt: body.logoAlt || row.logoAlt,
+          website: body.website || row.website,
+          linkedin: body.linkedin || row.linkedin,
+        };
+        return { ...current, entries };
+      });
+    } finally {
+      setLookingUp(null);
+    }
+  }
 
   function update(index: number, patch: Partial<ExperienceContent["entries"][number]>) {
-    const entries = draft.entries.slice();
-    const current = entries[index];
-    if (!current) return;
-    entries[index] = { ...current, ...patch };
-    setDraft({ ...draft, entries });
+    setDraft((current) => {
+      const entries = current.entries.slice();
+      const entry = entries[index];
+      if (!entry) return current;
+      entries[index] = { ...entry, ...patch };
+      return { ...current, entries };
+    });
+  }
+
+  async function lookupCompany(index: number, name: string) {
+    const query = name.trim();
+    if (query.length < 2) return;
+    const entry = draft.entries[index];
+    if (!entry) return;
+    setLookingUp(entry.id);
+    setError("");
+    try {
+      const response = await fetch(`/api/admin/company-lookup?name=${encodeURIComponent(query)}`);
+      const body = (await response.json().catch(() => null)) as
+        | { found?: boolean; logo?: string; logoAlt?: string; website?: string; linkedin?: string; error?: string }
+        | null;
+      if (!response.ok) {
+        setError(body?.error ?? "Could not look up that company.");
+        return;
+      }
+      if (!body?.found) {
+        setError(`No public site found for ${query}. You can fill the links in yourself.`);
+        return;
+      }
+      setDraft((current) => {
+        const entries = current.entries.slice();
+        const row = entries[index];
+        if (!row || row.company.trim() !== query) return current;
+        entries[index] = {
+          ...row,
+          logo: body.logo || row.logo,
+          logoAlt: body.logoAlt || row.logoAlt || `${query} logo`,
+          website: body.website || row.website,
+          linkedin: body.linkedin || row.linkedin,
+        };
+        return { ...current, entries };
+      });
+    } finally {
+      setLookingUp(null);
+    }
   }
 
   async function save() {
@@ -277,27 +386,94 @@ export function ExperienceEditor({ initial }: { initial: ExperienceContent }) {
       {draft.entries.map((entry, index) => (
         <div key={entry.id} className="space-y-2 rounded-2xl border border-stone-200 p-4">
           <ItemActions
-            onUp={() => setDraft({ ...draft, entries: moveItem(draft.entries, index, -1) })}
-            onDown={() => setDraft({ ...draft, entries: moveItem(draft.entries, index, 1) })}
-            onRemove={() => setDraft({ ...draft, entries: draft.entries.filter((row) => row.id !== entry.id) })}
+            onUp={() => setDraft((current) => ({ ...current, entries: moveItem(current.entries, index, -1) }))}
+            onDown={() => setDraft((current) => ({ ...current, entries: moveItem(current.entries, index, 1) }))}
+            onRemove={() => setDraft((current) => ({ ...current, entries: current.entries.filter((row) => row.id !== entry.id) }))}
           />
-          <Field label="Company"><input className={inputClass} value={entry.company} onChange={(e) => update(index, { company: e.target.value })} /></Field>
+          <Field label="Company">
+            <div className="relative">
+              <input
+                className={inputClass}
+                value={entry.company}
+                autoComplete="off"
+                onChange={(e) => {
+                  update(index, { company: e.target.value });
+                  queueSuggestions(entry.id, e.target.value);
+                }}
+                onBlur={(e) => {
+                  window.setTimeout(() => setSuggestions((current) => (current?.id === entry.id ? null : current)), 120);
+                  void lookupCompany(index, e.target.value);
+                }}
+                onFocus={() => queueSuggestions(entry.id, entry.company)}
+              />
+              {suggestions?.id === entry.id && suggestions.items.length > 0 ? (
+                <ul className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-xl border border-stone-200 bg-white py-1 shadow-lg">
+                  {suggestions.items.map((item) => (
+                    <li key={`${item.domain}-${item.name}`}>
+                      <button
+                        type="button"
+                        className="flex w-full items-center gap-3 px-3 py-2 text-left hover:bg-indigo-50"
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => void chooseSuggestion(index, entry.id, item)}
+                      >
+                        {item.logo ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={item.logo} alt="" className="h-8 w-14 object-contain" />
+                        ) : (
+                          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-stone-100 text-xs font-semibold text-stone-600">{item.name.slice(0, 1)}</span>
+                        )}
+                        <span>
+                          <span className="block text-sm font-medium text-stone-900">{item.name}</span>
+                          <span className="block text-xs text-stone-500">{item.domain}</span>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          </Field>
+          <p className="text-xs text-stone-500">
+            {lookingUp === entry.id ? "Adding the company logo…" : "Type a company name and choose a suggestion to add its logo."}
+          </p>
           <Field label="Role"><input className={inputClass} value={entry.role} onChange={(e) => update(index, { role: e.target.value })} /></Field>
           <Field label="Duration"><input className={inputClass} value={entry.duration} onChange={(e) => update(index, { duration: e.target.value })} /></Field>
-          <Field label="Description"><textarea className={inputClass} rows={4} value={entry.description} onChange={(e) => update(index, { description: e.target.value })} /></Field>
-          <Field label="Tech (comma separated)"><input className={inputClass} value={entry.tech.join(", ")} onChange={(e) => update(index, { tech: e.target.value.split(",").map((item) => item.trim()).filter(Boolean) })} /></Field>
+          <Field label="Description"><textarea className={inputClass} rows={5} value={entry.description} onChange={(e) => update(index, { description: e.target.value })} /></Field>
+          <Field label="Tech (comma separated)">
+            <input
+              className={inputClass}
+              value={techText[entry.id] ?? ""}
+              onChange={(e) => {
+                const value = e.target.value;
+                setTechText((current) => ({ ...current, [entry.id]: value }));
+                update(index, { tech: value.split(",").map((item) => item.trim()).filter(Boolean) });
+              }}
+            />
+          </Field>
+          <Field label="Website"><input className={inputClass} value={entry.website} onChange={(e) => update(index, { website: e.target.value })} placeholder="https://" /></Field>
+          <Field label="LinkedIn"><input className={inputClass} value={entry.linkedin} onChange={(e) => update(index, { linkedin: e.target.value })} placeholder="https://www.linkedin.com/company/..." /></Field>
           <Field label="Logo">
-            <input type="file" accept="image/*" className="mt-1 block text-sm" onChange={async (event) => {
+            {entry.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={entry.logo} alt={entry.logoAlt || entry.company} className="mt-2 h-12 w-auto max-w-[180px] object-contain" />
+            ) : (
+              <p className="mt-1 text-xs text-stone-400">No logo yet.</p>
+            )}
+            <input type="file" accept="image/*" className="mt-2 block text-sm" onChange={async (event) => {
               const file = event.target.files?.[0];
               if (!file) return;
               const uploaded = await uploadFile(file);
               if ("error" in uploaded) setError(uploaded.error);
-              else update(index, { logo: uploaded.path, logoAlt: entry.logoAlt || entry.company });
+              else update(index, { logo: uploaded.path, logoAlt: entry.logoAlt || `${entry.company} logo` });
             }} />
           </Field>
         </div>
       ))}
-      <button type="button" className="text-sm text-indigo-600" onClick={() => setDraft({ ...draft, entries: [...draft.entries, { id: newId("exp"), company: "Company", logo: "", logoAlt: "", role: "Role", duration: "Dates", description: "What you worked on.", tech: [], order: draft.entries.length }] })}>Add experience</button>
+      <button type="button" className="text-sm text-indigo-600" onClick={() => {
+        const id = newId("exp");
+        setTechText((current) => ({ ...current, [id]: "" }));
+        setDraft((current) => ({ ...current, entries: [...current.entries, { id, company: "Company", logo: "", logoAlt: "", website: "", linkedin: "", role: "Role", duration: "Dates", description: "What you worked on.", tech: [], order: current.entries.length }] }));
+      }}>Add experience</button>
       <div className="flex items-center gap-4"><SaveButton pending={pending} onClick={save} /><Notice error={error} saved={saved} /></div>
     </div>
   );
