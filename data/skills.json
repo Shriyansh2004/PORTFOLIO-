@@ -1,0 +1,48 @@
+{
+  "heading": "Skills",
+  "subheading": "Tools I use to ship backend services and the apps around them.",
+  "categories": [
+    {
+      "id": "backend",
+      "name": "Backend",
+      "skills": [
+        { "id": "spring", "name": "Spring Boot", "icon": "server" },
+        { "id": "fastapi", "name": "FastAPI", "icon": "zap" },
+        { "id": "java", "name": "Java", "icon": "braces" },
+        { "id": "python", "name": "Python", "icon": "terminal" },
+        { "id": "rest", "name": "REST APIs", "icon": "cable" },
+        { "id": "ws", "name": "WebSockets", "icon": "workflow" }
+      ]
+    },
+    {
+      "id": "frontend",
+      "name": "Frontend",
+      "skills": [
+        { "id": "next", "name": "Next.js", "icon": "layers" },
+        { "id": "ts", "name": "TypeScript", "icon": "code" }
+      ]
+    },
+    {
+      "id": "databases",
+      "name": "Databases",
+      "skills": [
+        { "id": "pg", "name": "PostgreSQL", "icon": "database" }
+      ]
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud & DevOps",
+      "skills": [
+        { "id": "aws", "name": "AWS", "icon": "cloud" },
+        { "id": "docker", "name": "Docker", "icon": "box" }
+      ]
+    },
+    {
+      "id": "tools",
+      "name": "Tools",
+      "skills": [
+        { "id": "git", "name": "Git", "icon": "git" }
+      ]
+    }
+  ]
+}

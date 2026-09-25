@@ -1,0 +1,78 @@
+{
+  "name": "Anubhab",
+  "title": "Backend & Full-Stack Developer",
+  "tagline": "APIs, real-time systems, and the products around them.",
+  "intro": "I design backend services and the interfaces in front of them — from EV charging platforms to collaborative tools — with a bias toward clear APIs, careful auth, and software that stays understandable.",
+  "photo": "",
+  "photoAlt": "Portrait of Anubhab",
+  "email": "",
+  "location": "Odisha, India",
+  "socials": [
+    {
+      "id": "github",
+      "label": "GitHub",
+      "href": "",
+      "icon": "github"
+    },
+    {
+      "id": "linkedin",
+      "label": "LinkedIn",
+      "href": "",
+      "icon": "linkedin"
+    },
+    {
+      "id": "email",
+      "label": "Email",
+      "href": "",
+      "icon": "mail"
+    }
+  ],
+  "ctas": [
+    {
+      "id": "projects",
+      "label": "View Projects",
+      "variant": "primary",
+      "action": "link",
+      "href": "#projects"
+    },
+    {
+      "id": "resume",
+      "label": "Download Resume",
+      "variant": "secondary",
+      "action": "resume",
+      "href": ""
+    },
+    {
+      "id": "contact",
+      "label": "Contact Me",
+      "variant": "ghost",
+      "action": "link",
+      "href": "#contact"
+    }
+  ],
+  "about": {
+    "heading": "About",
+    "subheading": "Engineering student building production-shaped software.",
+    "bio": "I am a backend and full-stack developer finishing a B.Tech in Electrical Engineering. Most of my work sits on the server: Spring Boot and FastAPI services, PostgreSQL, and the protocols that connect devices to those services. I also build the Next.js interfaces those systems need when the product has to be used by people, not just other machines.",
+    "highlights": [
+      {
+        "id": "h1",
+        "text": "Comfortable owning a feature from the API contract through persistence, auth, and a typed frontend."
+      },
+      {
+        "id": "h2",
+        "text": "Interested in protocols and infrastructure — OCPP charging sessions, WebSockets, and services that stay boring under load."
+      }
+    ],
+    "educationHeading": "Education",
+    "education": [
+      {
+        "id": "gcek",
+        "degree": "B.Tech Electrical Engineering",
+        "school": "Government College of Engineering, Kalahandi",
+        "year": "2026",
+        "detail": "Undergraduate program, graduating 2026."
+      }
+    ]
+  }
+}

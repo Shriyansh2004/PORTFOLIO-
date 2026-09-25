@@ -1,0 +1,28 @@
+{
+  "heading": "Experience",
+  "subheading": "Internships where I worked on charging software and the services behind it.",
+  "entries": [
+    {
+      "id": "future-motion",
+      "company": "Future Motion Pvt. Ltd.",
+      "logo": "",
+      "logoAlt": "Future Motion logo",
+      "role": "Backend Development Intern",
+      "duration": "Internship",
+      "description": "Worked on KaroCharge, an EV charging platform. Built and extended the Spring Boot API around OCPP 2.0.1 charging sessions, integrating CitrineOS as the CSMS, Hasura GraphQL, and deployment on AWS EC2 behind Nginx.",
+      "tech": ["Spring Boot", "OCPP 2.0.1", "CitrineOS", "Hasura", "AWS EC2", "Nginx"],
+      "order": 0
+    },
+    {
+      "id": "hirekarma",
+      "company": "HireKarma Pvt. Ltd.",
+      "logo": "",
+      "logoAlt": "HireKarma logo",
+      "role": "Backend Development Intern",
+      "duration": "Internship",
+      "description": "Worked on EV-SIM, a full-stack OCPP 2.0.1 simulation platform. Implemented the FastAPI backend and a Next.js, TypeScript, and Tailwind interface, including OpenAI API integration so chargers could be controlled in natural language.",
+      "tech": ["FastAPI", "Next.js", "TypeScript", "Tailwind CSS", "OpenAI API", "OCPP 2.0.1"],
+      "order": 1
+    }
+  ]
+}

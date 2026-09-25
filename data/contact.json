@@ -1,0 +1,19 @@
+{
+  "heading": "Contact",
+  "subheading": "Send a note about a role, a project, or something you want built.",
+  "directLabel": "Or reach me directly",
+  "successMessage": "Thanks — your message is saved and I will get back to you.",
+  "errorMessage": "Something went wrong sending that. Please try again.",
+  "fields": {
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "submit": "Send message",
+    "sending": "Sending"
+  },
+  "validation": {
+    "name": "Please enter your name.",
+    "email": "Please enter a valid email.",
+    "message": "Please enter a message."
+  }
+}

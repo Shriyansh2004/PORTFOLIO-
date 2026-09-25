@@ -1,0 +1,9 @@
+{
+  "heading": "Resume",
+  "subheading": "A PDF copy of my resume, kept current from the admin panel.",
+  "buttonLabel": "Download Resume",
+  "file": "",
+  "fileName": "",
+  "showPreview": true,
+  "emptyLabel": "Resume PDF will appear here once it is uploaded."
+}

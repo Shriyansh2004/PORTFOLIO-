@@ -1,0 +1,25 @@
+{
+  "seo": {
+    "title": "Anubhab — Backend & Full-Stack Developer",
+    "description": "Portfolio of Anubhab, a backend and full-stack developer working with Spring Boot, FastAPI, Next.js, and PostgreSQL."
+  },
+  "nav": [
+    { "id": "about", "label": "About", "href": "#about" },
+    { "id": "skills", "label": "Skills", "href": "#skills" },
+    { "id": "experience", "label": "Experience", "href": "#experience" },
+    { "id": "projects", "label": "Projects", "href": "#projects" },
+    { "id": "resume", "label": "Resume", "href": "#resume" },
+    { "id": "contact", "label": "Contact", "href": "#contact" }
+  ],
+  "footer": {
+    "copyright": "© {year} Anubhab. All rights reserved.",
+    "note": "Backend and full-stack software."
+  },
+  "ui": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "featuredLabel": "Featured",
+    "githubLabel": "GitHub",
+    "demoLabel": "Live demo"
+  }
+}
