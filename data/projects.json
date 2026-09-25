@@ -6,7 +6,13 @@
       "id": "taskflow",
       "title": "TaskFlow",
       "description": "A collaborative task manager in the spirit of a small Trello or Jira. Spring Boot and Next.js on PostgreSQL, with JWT refresh-token rotation, WebSocket room scoping, role-based authorization, and server-side pagination.",
-      "tech": ["Spring Boot", "Next.js", "PostgreSQL", "JWT", "WebSockets"],
+      "tech": [
+        "Spring Boot",
+        "Next.js",
+        "PostgreSQL",
+        "JWT",
+        "WebSockets"
+      ],
       "image": "",
       "imageAlt": "TaskFlow project cover",
       "github": "",
@@ -15,64 +21,22 @@
       "order": 0
     },
     {
-      "id": "karocharge",
-      "title": "KaroCharge",
-      "description": "An EV charging platform. The Spring Boot API talks to CitrineOS, an OCPP CSMS, over OCPP 2.0.1, with Hasura GraphQL and AWS for the surrounding data and hosting.",
-      "tech": ["Spring Boot", "CitrineOS", "OCPP 2.0.1", "Hasura", "AWS"],
-      "image": "",
-      "imageAlt": "KaroCharge project cover",
-      "github": "",
-      "demo": "",
-      "featured": true,
-      "order": 1
-    },
-    {
       "id": "ev-sim",
       "title": "EV-SIM",
       "description": "An OCPP 2.0.1 simulation platform with natural-language charger control. FastAPI on the backend, a Next.js, TypeScript, and Tailwind frontend, and the OpenAI API for the language layer.",
-      "tech": ["FastAPI", "Next.js", "TypeScript", "Tailwind CSS", "OpenAI API"],
+      "tech": [
+        "FastAPI",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "OpenAI API"
+      ],
       "image": "",
       "imageAlt": "EV-SIM project cover",
       "github": "",
       "demo": "",
       "featured": true,
-      "order": 2
-    },
-    {
-      "id": "redis-lite",
-      "title": "Redis-lite",
-      "description": "An in-memory cache engine with a hand-rolled Java core: a custom HashMap, doubly linked list, and min-heap for LRU and LFU eviction. Spring Boot sits at the edge. The core layer has no framework dependency.",
-      "tech": ["Java", "Spring Boot", "DSA"],
-      "image": "",
-      "imageAlt": "Redis-lite project cover",
-      "github": "",
-      "demo": "",
-      "featured": false,
-      "order": 3
-    },
-    {
-      "id": "shrisketch",
-      "title": "Shrisketch",
-      "description": "A collaborative diagramming web app in the spirit of Eraser.io. Next.js and Node.js with TypeScript, backed by PostgreSQL.",
-      "tech": ["Next.js", "Node.js", "TypeScript", "PostgreSQL"],
-      "image": "",
-      "imageAlt": "Shrisketch project cover",
-      "github": "",
-      "demo": "",
-      "featured": false,
-      "order": 4
-    },
-    {
-      "id": "car-racing",
-      "title": "Car Racing Game",
-      "description": "A browser racing game with Dr. Driving-style steering. FastAPI and PostgreSQL on the backend, Next.js and TypeScript on the frontend.",
-      "tech": ["FastAPI", "PostgreSQL", "Next.js", "TypeScript"],
-      "image": "",
-      "imageAlt": "Car Racing Game project cover",
-      "github": "",
-      "demo": "",
-      "featured": false,
-      "order": 5
+      "order": 1
     }
   ]
 }

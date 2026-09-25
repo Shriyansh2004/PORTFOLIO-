@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SkillIcon } from "@/components/ui/SkillIcon";
@@ -19,14 +22,18 @@ export function Skills({ skills }: { skills: SkillsContent }) {
               >
                 <h3 className="text-sm font-semibold text-stone-900">{category.name}</h3>
                 <ul className="mt-4 flex flex-wrap gap-2">
-                  {category.skills.map((skill) => (
-                    <li
+                  {category.skills.map((skill, skillIndex) => (
+                    <motion.li
                       key={skill.id}
                       className="flex items-center gap-2 rounded-2xl border border-stone-100 bg-stone-50 py-1.5 pr-3 pl-1.5"
+                      initial={{ opacity: 0, y: 10, scale: 0.92 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ type: "spring", stiffness: 280, damping: 22, delay: skillIndex * 0.06 }}
+                      whileHover={{ y: -3, scale: 1.03 }}
                     >
-                      <SkillIcon icon={skill.icon} name={skill.name} />
+                      <SkillIcon icon={skill.icon} name={skill.name} delay={skillIndex * 0.05} />
                       <span className="text-sm text-stone-700">{skill.name}</span>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </article>

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Field, ItemActions, inputClass, saveContent, uploadFile } from "@/components/admin/admin-ui";
-import { SKILL_ICON_KEYS } from "@/components/ui/SkillIcon";
+import { SkillIcon } from "@/components/ui/SkillIcon";
+import { resolveSkillLogo } from "@/lib/skill-logos";
 import { moveItem, newId, withSequentialOrder } from "@/lib/reorder";
 import type {
   CertificationsContent,
@@ -214,23 +215,17 @@ export function SkillsEditor({ initial }: { initial: SkillsContent }) {
             />
           </div>
           {category.skills.map((skill, skillIndex) => (
-            <div key={skill.id} className="grid gap-2 sm:grid-cols-[1fr_160px_auto]">
-              <input className={inputClass} value={skill.name} onChange={(e) => {
+            <div key={skill.id} className="flex items-center gap-2">
+              <SkillIcon name={skill.name} icon={skill.icon} />
+              <input className={`${inputClass} mt-0`} value={skill.name} placeholder="Python, Java, Docker…" onChange={(e) => {
+                const name = e.target.value;
+                const logo = resolveSkillLogo(name);
                 const skills = category.skills.slice();
-                skills[skillIndex] = { ...skill, name: e.target.value };
+                skills[skillIndex] = { ...skill, name, icon: logo?.slug ?? skill.icon };
                 const categories = draft.categories.slice();
                 categories[categoryIndex] = { ...category, skills };
                 setDraft({ ...draft, categories });
               }} />
-              <select className={inputClass} value={skill.icon} onChange={(e) => {
-                const skills = category.skills.slice();
-                skills[skillIndex] = { ...skill, icon: e.target.value };
-                const categories = draft.categories.slice();
-                categories[categoryIndex] = { ...category, skills };
-                setDraft({ ...draft, categories });
-              }}>
-                {SKILL_ICON_KEYS.map((key) => <option key={key} value={key}>{key}</option>)}
-              </select>
               <button type="button" className="text-xs text-red-600" onClick={() => {
                 const categories = draft.categories.slice();
                 categories[categoryIndex] = { ...category, skills: category.skills.filter((row) => row.id !== skill.id) };
