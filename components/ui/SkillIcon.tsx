@@ -7,15 +7,18 @@ import { resolveSkillLogo } from "@/lib/skill-logos";
 export function SkillIcon({
   name,
   delay = 0,
+  size = 36,
 }: {
   name: string;
   icon?: string;
   delay?: number;
+  size?: number;
 }) {
   const logo = resolveSkillLogo(name);
+  const box = { height: size, width: size };
 
   return (
-    <span className="relative flex h-9 w-9 shrink-0 items-center justify-center">
+    <span className="relative flex shrink-0 items-center justify-center" style={box}>
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
           key={logo?.slug ?? "fallback"}
@@ -28,10 +31,10 @@ export function SkillIcon({
         >
           {logo ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={logo.src} alt="" className="h-9 w-9 object-contain" />
+            <img src={logo.src} alt="" className="object-contain" style={box} />
           ) : (
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-              <Code2 size={16} aria-hidden />
+            <span className="flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600" style={box}>
+              <Code2 size={Math.max(14, Math.round(size * 0.42))} aria-hidden />
             </span>
           )}
         </motion.span>

@@ -54,7 +54,7 @@
         },
         {
           "id": "skill-sski7y",
-          "name": "Java Script",
+          "name": "JavaScript",
           "icon": "javascript"
         }
       ]
@@ -70,7 +70,7 @@
         },
         {
           "id": "skill-ontq5q",
-          "name": "My SQL",
+          "name": "MySQL",
           "icon": "mysql"
         }
       ]
@@ -104,6 +104,27 @@
           "id": "skill-2wceo0",
           "name": "GitHub",
           "icon": "git"
+        }
+      ]
+    },
+    {
+      "id": "cat-mukjc5",
+      "name": "Deployment",
+      "skills": [
+        {
+          "id": "skill-kw5ur0",
+          "name": "Netlify",
+          "icon": "netlify"
+        },
+        {
+          "id": "skill-80dr26",
+          "name": "Vercel",
+          "icon": "vercel"
+        },
+        {
+          "id": "skill-8jy8a7",
+          "name": "Render",
+          "icon": "render"
         }
       ]
     }

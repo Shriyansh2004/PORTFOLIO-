@@ -30,6 +30,9 @@ const FILES: Record<string, string> = {
   javascript: "/skill-logos/javascript.svg",
   js: "/skill-logos/javascript.svg",
   mysql: "/skill-logos/mysql.svg",
+  netlify: "/skill-logos/netlify.svg",
+  vercel: "/skill-logos/vercel.svg",
+  render: "/skill-logos/render.svg",
 };
 
 function keyOf(value: string) {
